@@ -1,0 +1,48 @@
+{
+  "nombre": "Red del Aspersor (4 nodos)",
+  "nodos": [
+    {
+      "id": "Nublado",
+      "estados": ["si", "no"],
+      "padres": [],
+      "cpt": {
+        "": [0.5, 0.5]
+      }
+    },
+    {
+      "id": "Aspersor",
+      "estados": ["si", "no"],
+      "padres": ["Nublado"],
+      "cpt": {
+        "si": [0.1, 0.9],
+        "no": [0.5, 0.5]
+      }
+    },
+    {
+      "id": "Lluvia",
+      "estados": ["si", "no"],
+      "padres": ["Nublado"],
+      "cpt": {
+        "si": [0.8, 0.2],
+        "no": [0.2, 0.8]
+      }
+    },
+    {
+      "id": "PastoMojado",
+      "estados": ["si", "no"],
+      "padres": ["Aspersor", "Lluvia"],
+      "cpt": {
+        "si,si": [0.99, 0.01],
+        "si,no": [0.9, 0.1],
+        "no,si": [0.9, 0.1],
+        "no,no": [0.0, 1.0]
+      }
+    }
+  ],
+  "posiciones": {
+    "Nublado": [380, 70],
+    "Aspersor": [220, 190],
+    "Lluvia": [540, 190],
+    "PastoMojado": [380, 320]
+  }
+}

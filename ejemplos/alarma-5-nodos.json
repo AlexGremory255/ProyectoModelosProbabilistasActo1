@@ -1,0 +1,24 @@
+{
+  "nombre": "Alarma (5 nodos)",
+  "nodos": [
+    { "id": "Robo", "estados": ["si", "no"], "padres": [],
+      "cpt": { "": [0.001, 0.999] } },
+    { "id": "Terremoto", "estados": ["si", "no"], "padres": [],
+      "cpt": { "": [0.002, 0.998] } },
+    { "id": "Alarma", "estados": ["si", "no"], "padres": ["Robo", "Terremoto"],
+      "cpt": {
+        "si,si": [0.95, 0.05],
+        "si,no": [0.94, 0.06],
+        "no,si": [0.29, 0.71],
+        "no,no": [0.001, 0.999]
+      } },
+    { "id": "JuanLlama", "estados": ["si", "no"], "padres": ["Alarma"],
+      "cpt": { "si": [0.90, 0.10], "no": [0.05, 0.95] } },
+    { "id": "MariaLlama", "estados": ["si", "no"], "padres": ["Alarma"],
+      "cpt": { "si": [0.70, 0.30], "no": [0.01, 0.99] } }
+  ],
+  "posiciones": {
+    "Robo": [100, 60], "Terremoto": [300, 60], "Alarma": [200, 180],
+    "JuanLlama": [100, 300], "MariaLlama": [300, 300]
+  }
+}

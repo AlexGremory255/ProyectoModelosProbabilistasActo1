@@ -1,0 +1,115 @@
+{
+  "nombre": "Diagnóstico de Vehículo (10 nodos)",
+  "nodos": [
+    {
+      "id": "Bateria",
+      "estados": ["ok", "falla"],
+      "padres": [],
+      "cpt": {
+        "": [0.92, 0.08]
+      }
+    },
+    {
+      "id": "Alternador",
+      "estados": ["ok", "falla"],
+      "padres": [],
+      "cpt": {
+        "": [0.96, 0.04]
+      }
+    },
+    {
+      "id": "Combustible",
+      "estados": ["lleno", "vacio"],
+      "padres": [],
+      "cpt": {
+        "": [0.9, 0.1]
+      }
+    },
+    {
+      "id": "FiltroAire",
+      "estados": ["limpio", "sucio"],
+      "padres": [],
+      "cpt": {
+        "": [0.85, 0.15]
+      }
+    },
+    {
+      "id": "SistemaElectrico",
+      "estados": ["activo", "inactivo"],
+      "padres": ["Bateria", "Alternador"],
+      "cpt": {
+        "ok,ok": [0.99, 0.01],
+        "ok,falla": [0.85, 0.15],
+        "falla,ok": [0.4, 0.6],
+        "falla,falla": [0.05, 0.95]
+      }
+    },
+    {
+      "id": "BombaCombustible",
+      "estados": ["activa", "falla"],
+      "padres": ["SistemaElectrico", "Combustible"],
+      "cpt": {
+        "activo,lleno": [0.98, 0.02],
+        "activo,vacio": [0.05, 0.95],
+        "inactivo,lleno": [0.02, 0.98],
+        "inactivo,vacio": [0.001, 0.999]
+      }
+    },
+    {
+      "id": "Bujias",
+      "estados": ["chispa", "sin_chispa"],
+      "padres": ["SistemaElectrico"],
+      "cpt": {
+        "activo": [0.95, 0.05],
+        "inactivo": [0.03, 0.97]
+      }
+    },
+    {
+      "id": "MotorArranque",
+      "estados": ["gira", "trastabilla"],
+      "padres": ["SistemaElectrico"],
+      "cpt": {
+        "activo": [0.97, 0.03],
+        "inactivo": [0.01, 0.99]
+      }
+    },
+    {
+      "id": "EncendidoMotor",
+      "estados": ["enciende", "falla"],
+      "padres": ["BombaCombustible", "Bujias", "MotorArranque"],
+      "cpt": {
+        "activa,chispa,gira": [0.99, 0.01],
+        "activa,chispa,trastabilla": [0.2, 0.8],
+        "activa,sin_chispa,gira": [0.05, 0.95],
+        "activa,sin_chispa,trastabilla": [0.01, 0.99],
+        "falla,chispa,gira": [0.02, 0.98],
+        "falla,chispa,trastabilla": [0.01, 0.99],
+        "falla,sin_chispa,gira": [0.001, 0.999],
+        "falla,sin_chispa,trastabilla": [0.0, 1.0]
+      }
+    },
+    {
+      "id": "AlertaTablero",
+      "estados": ["apagada", "encendida"],
+      "padres": ["EncendidoMotor", "FiltroAire"],
+      "cpt": {
+        "enciende,limpio": [0.95, 0.05],
+        "enciende,sucio": [0.4, 0.6],
+        "falla,limpio": [0.1, 0.9],
+        "falla,sucio": [0.02, 0.98]
+      }
+    }
+  ],
+  "posiciones": {
+    "Bateria": [80, 50],
+    "Alternador": [240, 50],
+    "Combustible": [400, 50],
+    "FiltroAire": [640, 200],
+    "SistemaElectrico": [160, 160],
+    "BombaCombustible": [340, 160],
+    "Bujias": [100, 270],
+    "MotorArranque": [240, 270],
+    "EncendidoMotor": [280, 390],
+    "AlertaTablero": [520, 390]
+  }
+}

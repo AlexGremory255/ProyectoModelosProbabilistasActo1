@@ -1,0 +1,9 @@
+{
+  "name": "redes-bayesianas",
+  "version": "1.0.0",
+  "description": "Editor y motor de eliminación de variables para redes bayesianas",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
