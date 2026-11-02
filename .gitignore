@@ -1,0 +1,13 @@
+# Dependencias y logs de Node (si se ejecutan pruebas locales)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de configuración de editores y sistemas operativos
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
