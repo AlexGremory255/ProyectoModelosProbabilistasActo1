@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redes Bayesianas — Prototipo</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header class="barra" role="banner">
+    <button id="alternarIzquierdo" class="boton boton-icono" type="button" aria-label="Panel de edición" title="Panel de edición">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zm3 13.5v-11h-1.5v11zm11.5 0v-11H10v11z"/></svg>
+    </button>
+
+    <div class="marca">
+      <span class="marca-emblema"></span>
+      <span class="marca-red" id="nombreRedBarra">Red nueva</span>
+    </div>
+
+    <nav class="barra-acciones" aria-label="Acciones de la red">
+      <button id="botonNueva" class="boton" type="button">Nueva</button>
+      <label class="boton" for="archivoRed">Abrir</label>
+      <input type="file" id="archivoRed" accept=".json,application/json" hidden>
+      <button id="botonGuardar" class="boton" type="button">Guardar</button>
+
+      <span class="barra-divisor"></span>
+
+      <div class="selector-barra">
+        <label for="selectorEjemplo" class="oculto-visual">Ejemplos</label>
+        <select id="selectorEjemplo">
+          <option value="">Ejemplos</option>
+          <option value="ejemplos/cadena-3-nodos.json">Cadena — 3 nodos</option>
+          <option value="ejemplos/aspersor-4-nodos.json">Aspersor — 4 nodos</option>
+          <option value="ejemplos/alarma-5-nodos.json">Alarma — 5 nodos</option>
+          <option value="ejemplos/diagnostico-6-nodos.json">Diagnóstico médico — 6 nodos</option>
+          <option value="ejemplos/vehiculo-10-nodos.json">Falla de vehículo — 10 nodos</option>
+        </select>
+      </div>
+
+      <span class="barra-divisor"></span>
+
+      <button id="botonImprimir" class="boton" type="button">Imprimir</button>
+    </nav>
+
+    <button id="alternarDerecho" class="boton boton-icono" type="button" aria-label="Panel de consulta" title="Panel de consulta">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zm1.5 1.5v13h8.5v-13zm10 0v13h3v-13z"/></svg>
+    </button>
+  </header>
+
+  <div class="espacio">
+    <aside id="panelIzquierdo" class="panel panel-izquierdo" aria-label="Edición de la red">
+      <div id="editor" class="tarjeta"></div>
+    </aside>
+
+    <main class="lienzo">
+      <h1 class="oculto-visual">Redes bayesianas</h1>
+      <section id="grafo" class="tarjeta tarjeta-grafo" aria-label="Grafo de la red"></section>
+    </main>
+
+    <aside id="panelDerecho" class="panel panel-derecho" aria-label="Consulta probabilística">
+      <div id="consulta" class="tarjeta"></div>
+    </aside>
+  </div>
+
+  <div id="velo" class="velo" hidden></div>
+  <div id="avisos" class="avisos" aria-live="polite"></div>
+  <section id="salidaImpresion"></section>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
+
