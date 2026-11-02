@@ -35,10 +35,32 @@ export function actualizar(cambio = {}, origen = null) {
 export function buscarNodo(identificador) {
   return estado.red.nodos.find(nodo => nodo.id === identificador);}
 
+function filaVacia(cantidadEstados) {
+  return new Array(cantidadEstados).fill(0);}
+
 function filaUniforme(cantidadEstados) {
   const valorBase = redondear(1 / cantidadEstados);
   const fila = new Array(cantidadEstados).fill(valorBase);
   fila[cantidadEstados - 1] = redondear(1 - valorBase * (cantidadEstados - 1));
+  return fila;}
+
+function filaAleatoria(cantidadEstados) {
+  const centavosPorEstado = new Array(cantidadEstados).fill(1);
+  const centavosRestantes = Math.max(0, 100 - cantidadEstados);
+  const pesosAleatorios = Array.from({ length: cantidadEstados }, () => Math.random() * 0.9 + 0.1);
+  const sumaPesos = pesosAleatorios.reduce((acumulado, peso) => acumulado + peso, 0);
+  let asignados = 0;
+
+  for (let posicion = 0; posicion < cantidadEstados - 1; posicion++) {
+    const extra = Math.round((centavosRestantes * pesosAleatorios[posicion]) / sumaPesos);
+    const disponible = Math.max(0, Math.min(extra, centavosRestantes - asignados));
+    centavosPorEstado[posicion] += disponible;
+    asignados += disponible;}
+
+  centavosPorEstado[cantidadEstados - 1] += Math.max(0, centavosRestantes - asignados);
+  const fila = centavosPorEstado.map(centavos => redondear(centavos / 100));
+  const sumaParcial = fila.slice(0, -1).reduce((acumulado, probabilidad) => acumulado + probabilidad, 0);
+  fila[cantidadEstados - 1] = redondear(Math.max(0, 1 - sumaParcial));
   return fila;}
 
 function regenerarCpt(nodo) {
@@ -50,7 +72,7 @@ function regenerarCpt(nodo) {
     tablaNueva[clave] =
       filaAnterior && filaAnterior.length === nodo.estados.length
         ? filaAnterior
-        : filaUniforme(nodo.estados.length);}
+        : filaVacia(nodo.estados.length);}
   nodo.cpt = tablaNueva;}
 
 function depurarSeleccion() {
@@ -170,6 +192,12 @@ export function distribuirUniformeTodoNodo(identificador) {
   const nodo = buscarNodo(identificador);
   if (!nodo) return;
   for (const clave of Object.keys(nodo.cpt)) nodo.cpt[clave] = filaUniforme(nodo.estados.length);
+  actualizar({ resultado: null });}
+
+export function distribuirAleatorioTodoNodo(identificador) {
+  const nodo = buscarNodo(identificador);
+  if (!nodo) return;
+  for (const clave of Object.keys(nodo.cpt)) nodo.cpt[clave] = filaAleatoria(nodo.estados.length);
   actualizar({ resultado: null });}
 
 export function asignarPapel(identificador, papel) {
