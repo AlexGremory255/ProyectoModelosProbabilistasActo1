@@ -3,30 +3,44 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Redes Bayesianas — Prototipo</title>
+  <title>Redes bayesianas — Eliminación de variables</title>
+  <meta name="description" content="Construcción, visualización y consulta de redes bayesianas mediante el método de eliminación de variables.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/estilos.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23050505' stroke='%23262626'/><circle cx='10' cy='11' r='3' fill='%23fff'/><circle cx='22' cy='11' r='3' fill='%23fff'/><circle cx='16' cy='22' r='3' fill='%2360a5fa'/></svg>">
 </head>
 <body>
-  <header class="barra" role="banner">
-    <button id="alternarIzquierdo" class="boton boton-icono" type="button" aria-label="Panel de edición" title="Panel de edición">
-      <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zm3 13.5v-11h-1.5v11zm11.5 0v-11H10v11z"/></svg>
+  <header class="barra">
+    <button id="alternarIzquierdo" class="boton-icono" type="button" aria-controls="panelIzquierdo" aria-label="Mostrar u ocultar el panel de la red" title="Panel de la red">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v1.5H3zm0 5.25h18v1.5H3zm0 5.25h18v1.5H3z"/></svg>
     </button>
 
     <div class="marca">
-      <span class="marca-emblema"></span>
-      <span class="marca-red" id="nombreRedBarra">Red nueva</span>
+      <span class="marca-emblema" aria-hidden="true"></span>
+      <span id="nombreRedBarra" class="marca-red">Red nueva</span>
     </div>
 
-    <nav class="barra-acciones" aria-label="Acciones de la red">
-      <button id="botonNueva" class="boton" type="button">Nueva</button>
-      <label class="boton" for="archivoRed">Abrir</label>
+    <nav class="barra-acciones" aria-label="Acciones de archivo">
+      <button id="botonNueva" class="boton boton-fantasma" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>
+        <span class="texto">Nueva red</span>
+      </button>
+      <label class="boton boton-fantasma" for="archivoRed">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6l2 2h8v12H4zm2 4v8h12V9z"/></svg>
+        <span class="texto">Abrir</span>
+      </label>
       <input type="file" id="archivoRed" accept=".json,application/json" hidden>
-      <button id="botonGuardar" class="boton" type="button">Guardar</button>
+      <button id="botonGuardar" class="boton boton-fantasma" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11l3 3v13H5zm2 2v4h8V6zm5 7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>
+        <span class="texto">Guardar</span>
+      </button>
 
-      <span class="barra-divisor"></span>
+      <span class="barra-divisor" aria-hidden="true"></span>
 
       <div class="selector-barra">
-        <label for="selectorEjemplo" class="oculto-visual">Ejemplos</label>
+        <label for="selectorEjemplo" class="oculto-visual">Cargar un ejemplo</label>
         <select id="selectorEjemplo">
           <option value="">Ejemplos</option>
           <option value="ejemplos/cadena-3-nodos.json">Cadena — 3 nodos</option>
@@ -37,13 +51,16 @@
         </select>
       </div>
 
-      <span class="barra-divisor"></span>
+      <span class="barra-divisor" aria-hidden="true"></span>
 
-      <button id="botonImprimir" class="boton" type="button">Imprimir</button>
+      <button id="botonImprimir" class="boton boton-fantasma" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v4H7zM4 9h16v8h-3v4H7v-4H4zm5 6v4h6v-4z"/></svg>
+        <span class="texto">Imprimir reporte</span>
+      </button>
     </nav>
 
-    <button id="alternarDerecho" class="boton boton-icono" type="button" aria-label="Panel de consulta" title="Panel de consulta">
-      <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4zm1.5 1.5v13h8.5v-13zm10 0v13h3v-13z"/></svg>
+    <button id="alternarDerecho" class="boton-icono" type="button" aria-controls="panelDerecho" aria-label="Mostrar u ocultar el panel de consulta" title="Panel de consulta">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zm1.5 1.5v13h8.5v-13zm10 0v13h3v-13z"/></svg>
     </button>
   </header>
 
@@ -53,7 +70,7 @@
     </aside>
 
     <main class="lienzo">
-      <h1 class="oculto-visual">Redes bayesianas</h1>
+      <h1 class="oculto-visual">Redes bayesianas: construcción e inferencia por eliminación de variables</h1>
       <section id="grafo" class="tarjeta tarjeta-grafo" aria-label="Grafo de la red"></section>
     </main>
 
@@ -64,9 +81,9 @@
 
   <div id="velo" class="velo" hidden></div>
   <div id="avisos" class="avisos" aria-live="polite"></div>
+
   <section id="salidaImpresion"></section>
 
   <script type="module" src="src/main.js"></script>
 </body>
 </html>
-
