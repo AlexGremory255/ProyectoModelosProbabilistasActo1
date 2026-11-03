@@ -85,6 +85,26 @@ export function iniciar(contenedor, { alAgregarNodo } = {}) {
       <text class="nodo-detalle" x="22" y="42"></text>`;
     return grupoNodo;}
 
+  function ajustarVistaSvg(listaNodos, posiciones) {
+    if (nodoArrastrado) return;
+    if (!listaNodos.length || window.innerWidth > 960) {
+      elementoSvg.setAttribute('viewBox', `0 0 ${anchoLienzo} ${altoLienzo}`);
+      return;}
+    const coordenadasX = listaNodos.map(nodo => posiciones[nodo.id][0]);
+    const coordenadasY = listaNodos.map(nodo => posiciones[nodo.id][1]);
+    const margen = 28;
+    const minX = Math.min(...coordenadasX) - anchoNodo / 2 - margen;
+    const maxX = Math.max(...coordenadasX) + anchoNodo / 2 + margen;
+    const minY = Math.min(...coordenadasY) - altoNodo / 2 - margen;
+    const maxY = Math.max(...coordenadasY) + altoNodo / 2 + margen;
+    const anchoCaja = Math.max(420, maxX - minX);
+    const altoCaja = Math.max(340, maxY - minY);
+    const centroX = (minX + maxX) / 2;
+    const centroY = (minY + maxY) / 2;
+    elementoSvg.setAttribute(
+      'viewBox',
+      `${Math.round(centroX - anchoCaja / 2)} ${Math.round(centroY - altoCaja / 2)} ${Math.round(anchoCaja)} ${Math.round(altoCaja)}`);}
+
   function dibujar() {
     const { red, seleccionado, consulta, evidencia } = obtener();
     const listaNodos = red.nodos;
@@ -96,6 +116,8 @@ export function iniciar(contenedor, { alAgregarNodo } = {}) {
         red.posiciones[nodo.id] = [
           Math.round(400 + 250 * Math.cos(angulo)),
           Math.round(240 + 150 * Math.sin(angulo))];}});
+
+    ajustarVistaSvg(listaNodos, red.posiciones);
 
     const totalArcos = listaNodos.reduce((acumulado, nodo) => acumulado + nodo.padres.length, 0);
     resumenGrafo.textContent = listaNodos.length
@@ -262,6 +284,10 @@ export function iniciar(contenedor, { alAgregarNodo } = {}) {
           Math.round(posicionActual[1] + desplazamientoY)];});});};
 
   contenedor.querySelector('#btnPrimerNodo').onclick = () => alAgregarNodo && alAgregarNodo();
+
+  window.addEventListener('resize', () => {
+    const { red } = obtener();
+    ajustarVistaSvg(red.nodos, red.posiciones);});
 
   suscribir(origen => {
     if (origen !== 'nombre' && origen !== 'posicion') dibujar();});

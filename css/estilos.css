@@ -58,6 +58,7 @@ html,
 body {
   margin: 0;
   height: 100%;
+  height: 100dvh;
   color-scheme: dark;}
 
 body {
@@ -130,6 +131,7 @@ svg {
 .barra > .boton-icono {
   width: 56px;
   height: 100%;
+  flex-shrink: 0;
   border-radius: 0;
   border-right: 1px solid var(--borde-sutil);}
 
@@ -1380,12 +1382,14 @@ select optgroup {
   background: rgba(255, 255, 255, 0.08);
   color: var(--texto);}
 
-@media (max-width: 1360px) {
+@media (max-width: 1440px) {
   :root {
-  --ancho-izquierdo: 360px;
-  --ancho-derecho: 340px;}}
+    --ancho-izquierdo: clamp(290px, 26vw, 370px);
+    --ancho-derecho: clamp(280px, 25vw, 350px);}}
 
-@media (max-width: 1100px) {
+@media (max-width: 1180px) {
+  .marca {
+    padding: 0 14px;}
   .barra .boton .texto {
     display: none;}
   .barra .boton {
@@ -1403,39 +1407,128 @@ select optgroup {
     position: fixed;
     top: calc(var(--alto-barra) + 22px);
     bottom: 12px;
-    width: var(--ancho-izquierdo);
+    width: min(390px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
     z-index: 50;
     border: 1px solid var(--borde-fuerte);
     border-radius: var(--radio-superficie);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.78);
     opacity: 1 !important;
-    pointer-events: auto !important;
+    pointer-events: auto !important;}
+  body.listo .panel {
     transition: transform 260ms var(--curva);}
   .panel-izquierdo {
     left: 12px;}
   .panel-derecho {
     right: 12px;
-    width: var(--ancho-derecho);}
+    width: min(390px, calc(100vw - 24px));}
+  .panel-izquierdo > .tarjeta,
+  .panel-derecho > .tarjeta {
+    width: 100%;
+    min-width: 0;}
   body.izquierdo-cerrado .panel-izquierdo {
-    transform: translateX(calc(-100% - 24px));
+    transform: translateX(calc(-100% - 28px));
     pointer-events: none !important;}
   body.derecho-cerrado .panel-derecho {
-    transform: translateX(calc(100% + 24px));
+    transform: translateX(calc(100% + 28px));
     pointer-events: none !important;}
   .lienzo {
     grid-column: 1;}}
 
 @media (max-width: 640px) {
   :root {
-  --ancho-izquierdo: calc(100vw - 24px);
-  --ancho-derecho: calc(100vw - 24px);}
+    --alto-barra: 48px;
+    --ancho-izquierdo: calc(100vw - 16px);
+    --ancho-derecho: calc(100vw - 16px);}
+  body {
+    padding: 8px;
+    gap: 8px;}
+  .barra > .boton-icono {
+    width: 44px;}
+  .marca {
+    display: none;}
+  .barra-acciones {
+    flex: 1;
+    min-width: 0;
+    justify-content: space-between;
+    padding: 0 6px;
+    gap: 3px;
+    overflow-x: auto;
+    scrollbar-width: none;}
+  .barra-acciones::-webkit-scrollbar {
+    display: none;}
   .barra-divisor {
     display: none;}
+  .selector-barra {
+    flex: 1;
+    min-width: 96px;
+    max-width: 155px;}
+  .selector-barra select {
+    width: 100%;
+    height: 32px;
+    padding: 0 24px 0 10px;
+    font-size: 12px;
+    text-overflow: ellipsis;}
+  .barra .boton {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;}
+  .panel {
+    top: calc(var(--alto-barra) + 16px);
+    bottom: 8px;
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);}
+  .panel-izquierdo {
+    left: 8px;}
+  .panel-derecho {
+    right: 8px;
+    width: calc(100vw - 16px);}
+  .panel-encabezado {
+    padding: 13px 16px 11px;}
+  .panel-cuerpo {
+    padding: 14px 16px;}
+  .acordeon > summary {
+    padding: 0 16px;}
+  .acordeon-contenido {
+    padding: 4px 16px 16px;}
+  .lista-nodos {
+    margin: 0 -16px;}
+  .elemento-nodo {
+    padding: 0 16px;}
+  .tabla-contenedor {
+    margin: 4px -16px 12px;}
+  .grafo-encabezado {
+    height: 44px;
+    padding: 0 12px;
+    gap: 6px;}
+  .grafo-encabezado .boton-chico {
+    padding: 0 10px;
+    font-size: 11.5px;}
   .leyenda {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
     flex-wrap: wrap;
-    gap: 8px 12px;}}
+    justify-content: center;
+    gap: 6px 12px;}
+  .avisos {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    max-width: none;}
+  .notificacion {
+    max-width: none;}}
+
+@media (max-width: 420px) {
+  .grafo-encabezado #grafoResumen {
+    display: none;}}
+
+@media (max-width: 640px) and (pointer: coarse) {
+  .entrada,
+  .lista {
+    font-size: 16px;}
+  .entrada-prob {
+    font-size: 15px;}}
 
 #salidaImpresion {
   display: none;}

@@ -15,6 +15,16 @@ function cargarRed(red) {
   const requiereAcomodo = red.nodos.some(
     nodo => !Array.isArray(red.posiciones[nodo.id]) || red.posiciones[nodo.id].length < 2);
 
+  if (!requiereAcomodo && red.nodos.length > 0) {
+    const coordenadasX = red.nodos.map(nodo => red.posiciones[nodo.id][0]);
+    const coordenadasY = red.nodos.map(nodo => red.posiciones[nodo.id][1]);
+    const desplazamientoX = Math.round(400 - (Math.min(...coordenadasX) + Math.max(...coordenadasX)) / 2);
+    const desplazamientoY = Math.round(240 - (Math.min(...coordenadasY) + Math.max(...coordenadasY)) / 2);
+    red.nodos.forEach(nodo => {
+      red.posiciones[nodo.id] = [
+        red.posiciones[nodo.id][0] + desplazamientoX,
+        red.posiciones[nodo.id][1] + desplazamientoY];});}
+
   actualizar({
     red,
     seleccionado: red.nodos[0]?.id || null,
